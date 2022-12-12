@@ -1,2 +1,2 @@
 # SDA_Project
-Project for Software Design and Aerchitecture course
+Project for Software Design and Architecture course
