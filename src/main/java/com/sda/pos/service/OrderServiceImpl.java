@@ -41,4 +41,19 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.save(newOrder);
     }
+
+    @Override
+    public void updateOrderStatusToConfirmed(Long orderId) {
+        POSOrder oldOrder = orderRepository.findById(orderId).orElseThrow();
+
+        if(orderRepository.existsById(orderId)){
+            orderRepository.deleteById(orderId);
+        }
+        else {
+            throw new RuntimeException("Order with this id does not exist");
+        }
+
+        oldOrder.setOrderStatus(OrderStatus.PLACED);
+        orderRepository.save(oldOrder);
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Orders")
-@RequestMapping("/pos/orders")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -36,5 +36,11 @@ public class OrderController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateOrder(@RequestBody POSOrder order){
         orderService.updateOrder(order.getUserId(), order.getStartDate(), order.getEstimatedEndDate(), order.getEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId());
+    }
+
+    @Operation(summary = "Update order status to PLACED")
+    @PutMapping(value = "/{orderId}/confirm")
+    public void updateOrderStatusToConfirmed(@PathVariable("orderId") Long orderId){
+        orderService.updateOrderStatusToConfirmed(orderId);
     }
 }

@@ -14,4 +14,5 @@ public interface OrderService {
 
     public void updateOrder(Long userId, Timestamp startDate, Timestamp estimatedEndDate, Timestamp endDate, String moreInfo, OrderStatus orderStatus, String storeUserId);
 
+    public void updateOrderStatusToConfirmed(Long orderId);
 }
