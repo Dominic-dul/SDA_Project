@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     private final OrderRepository orderRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository) {
@@ -55,5 +56,22 @@ public class OrderServiceImpl implements OrderService {
 
         oldOrder.setOrderStatus(OrderStatus.PLACED);
         orderRepository.save(oldOrder);
+    }
+
+    @Override
+    public OrderStatus getOrderStatus(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow().getOrderStatus();
+    }
+
+    @Override
+    public POSOrder getOrderByUserId(Long userId) {
+        return orderRepository.findById(userId).orElseThrow();
+    }
+
+    @Override
+    public List<POSOrder> getCompletedOrders() {
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getOrderStatus().equals(OrderStatus.FINISHED))
+                .toList();
     }
 }
