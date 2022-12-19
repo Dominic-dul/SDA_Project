@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.deleteById(userId);
         }
         else {
-            throw new RuntimeException("Order with this id does not exist");
+            throw new NoSuchElementException("Order with this id does not exist");
         }
 
         POSOrder newOrder = new POSOrder(userId, startDate, estimatedEndDate, endDate, moreInfo, orderStatus, storeUserId);
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.deleteById(orderId);
         }
         else {
-            throw new RuntimeException("Order with this id does not exist");
+            throw new NoSuchElementException("Order with this id does not exist");
         }
 
         oldOrder.setOrderStatus(OrderStatus.PLACED);
