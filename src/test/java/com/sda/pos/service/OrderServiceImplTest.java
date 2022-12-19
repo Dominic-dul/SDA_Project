@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -138,5 +139,57 @@ public class OrderServiceImplTest {
         // then - verify the output
         assertThat(completedOrderList).isNotNull();
         assertThat(completedOrderList.size()).isEqualTo(1);
+    }
+
+    @DisplayName("JUnit test for updateOrder method which throws exception")
+    @Test
+    public void givenOrderDetails_whenUpdateOrder_thenThrowsException(){
+        // given - precondition or setup
+        given(orderRepository.existsById(order.getUserId())).willReturn(false);
+        // when -  action or the behaviour that we are going test
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
+                orderService.updateOrder(order.getUserId(), order.getStartDate(), order.getEndDate(), order.getEstimatedEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId()));
+
+        // then
+        verify(orderRepository, never()).save(any(POSOrder.class));
+        verify(orderRepository, never()).deleteById(any(Long.class));
+    }
+
+    @DisplayName("JUnit test for updateOrderStatusToConfirmed method which throws exception")
+    @Test
+    public void givenOrderDetails_whenUpdateOrderStatusToConfirmed_thenThrowsException(){
+        // given - precondition or setup
+        given(orderRepository.findById(order.getUserId())).willReturn(Optional.ofNullable(order));
+        given(orderRepository.existsById(order.getUserId())).willReturn(false);
+        // when -  action or the behaviour that we are going test
+
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
+                orderService.updateOrderStatusToConfirmed(order.getUserId()));
+
+        // then
+        verify(orderRepository, never()).save(any(POSOrder.class));
+        verify(orderRepository, never()).deleteById(any(Long.class));
+    }
+
+    @DisplayName("JUnit test for getOrderStatus method which throws exception")
+    @Test
+    public void givenOrderId_whenGetOrderStatus_thenThrowsException(){
+        // given - precondition or setup
+        given(orderRepository.findById(order.getUserId())).willReturn(Optional.empty());
+        // when -  action or the behaviour that we are going test
+
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
+                orderService.getOrderStatus(order.getUserId()));
+    }
+
+    @DisplayName("JUnit test for getOrderByUserId method which throws exception")
+    @Test
+    public void givenOrderId_whenGetOrderByUserId_thenThrowsException(){
+        // given - precondition or setup
+        given(orderRepository.findById(order.getUserId())).willReturn(Optional.empty());
+        // when -  action or the behaviour that we are going test
+
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
+                orderService.getOrderByUserId(order.getUserId()));
     }
 }

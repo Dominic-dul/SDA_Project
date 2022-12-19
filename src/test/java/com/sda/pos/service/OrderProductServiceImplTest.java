@@ -11,12 +11,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderProductServiceImplTest {
@@ -72,5 +72,20 @@ public class OrderProductServiceImplTest {
         // then - verify the output
         assertThat(orderProductList).isNotNull();
         assertThat(orderProductList.size()).isEqualTo(1);
+    }
+
+    @DisplayName("JUnit test for deleteOrderProduct method which throws exception")
+    @Test
+    public void givenOrderProductID_whenDeleteOrderProduct_thenThrowsException(){
+        // given - precondition or setup
+        given(orderProductRepository.findAll()).willReturn(List.of(orderProduct));
+
+        // when -  action or the behaviour that we are going test
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () -> {
+            orderProductService.deleteOrderProduct(8L, 9L);
+        });
+
+        // then
+        verify(orderProductRepository, never()).deleteById(any(Long.class));
     }
 }
