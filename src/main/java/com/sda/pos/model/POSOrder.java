@@ -13,7 +13,6 @@ import java.util.Objects;
 public class POSOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     private Timestamp startDate;
     private Timestamp estimatedEndDate;
@@ -22,13 +21,14 @@ public class POSOrder {
     private OrderStatus orderStatus;
     private String storeUserId;
 
-    public POSOrder(Timestamp startDate, Timestamp estimatedEndDate, Timestamp endDate, String moreInfo, OrderStatus orderStatus, String storeUserId) {
+    public POSOrder(Long userId, Timestamp startDate, Timestamp estimatedEndDate, Timestamp endDate, String moreInfo, OrderStatus orderStatus, String storeUserId) {
         this.startDate = startDate;
         this.estimatedEndDate = estimatedEndDate;
         this.endDate = endDate;
         this.moreInfo = moreInfo;
         this.orderStatus = orderStatus;
         this.storeUserId = storeUserId;
+        this.userId = userId;
     }
 
     public POSOrder() {

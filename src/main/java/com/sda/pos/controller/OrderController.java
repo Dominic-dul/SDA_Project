@@ -29,6 +29,12 @@ public class OrderController {
     @Operation(summary = "Post an order")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveOrder(@RequestBody POSOrder order){
-        orderService.saveOrder(order.getStartDate(), order.getEstimatedEndDate(), order.getEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId());
+        orderService.saveOrder(order.getUserId(), order.getStartDate(), order.getEstimatedEndDate(), order.getEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId());
+    }
+
+    @Operation(summary = "Update an order")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateOrder(@RequestBody POSOrder order){
+        orderService.updateOrder(order.getUserId(), order.getStartDate(), order.getEstimatedEndDate(), order.getEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId());
     }
 }
