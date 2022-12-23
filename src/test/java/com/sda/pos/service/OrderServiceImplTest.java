@@ -69,36 +69,32 @@ public class OrderServiceImplTest {
     @Test
     public void givenOrderObject_whenUpdateOrder_thenRepositoryDeleteAndExistsAndSaveWereInvoked(){
         // given - precondition or setup
-        given(orderRepository.save(order)).willReturn(order);
+        given(orderRepository.findById(order.getUserId())).willReturn(Optional.ofNullable(order));
         given(orderRepository.existsById(order.getUserId())).willReturn(true);
-        willDoNothing().given(orderRepository).deleteById(order.getUserId());
 
         // when -  action or the behaviour that we are going test
         orderService.updateOrder(order.getUserId(), order.getStartDate(), order.getEndDate(), order.getEstimatedEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId());
 
         // then - verify the output
-        verify(orderRepository, times(1)).save(order);
         verify(orderRepository, times(1)).existsById(order.getUserId());
-        verify(orderRepository, times(1)).deleteById(order.getUserId());
+        verify(orderRepository, times(1)).findById(order.getUserId());
+        verify(orderRepository, times(1)).save(order);
     }
 
     @DisplayName("JUnit test for updateOrderStatusToConfirmed method")
     @Test
     public void givenOrderId_whenUpdateOrderStatusToConfirmed_thenRepositoryFindAndDeleteAndExistsAndSaveWereInvoked(){
         // given - precondition or setup
-        given(orderRepository.save(order)).willReturn(order);
         given(orderRepository.existsById(order.getUserId())).willReturn(true);
         given(orderRepository.findById(order.getUserId())).willReturn(Optional.ofNullable(order));
-        willDoNothing().given(orderRepository).deleteById(order.getUserId());
 
         // when -  action or the behaviour that we are going test
         orderService.updateOrderStatusToConfirmed(order.getUserId());
 
         // then - verify the output
-        verify(orderRepository, times(1)).save(order);
         verify(orderRepository, times(1)).existsById(order.getUserId());
-        verify(orderRepository, times(1)).deleteById(order.getUserId());
         verify(orderRepository, times(1)).findById(order.getUserId());
+        verify(orderRepository, times(1)).save(order);
     }
 
     @DisplayName("JUnit test for getOrderStatus method")
@@ -150,25 +146,22 @@ public class OrderServiceImplTest {
         org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
                 orderService.updateOrder(order.getUserId(), order.getStartDate(), order.getEndDate(), order.getEstimatedEndDate(), order.getMoreInfo(), order.getOrderStatus(), order.getStoreUserId()));
 
-        // then
-        verify(orderRepository, never()).save(any(POSOrder.class));
-        verify(orderRepository, never()).deleteById(any(Long.class));
+        verify(orderRepository, never()).findById(order.getUserId());
+        verify(orderRepository, never()).save(order);
     }
 
     @DisplayName("JUnit test for updateOrderStatusToConfirmed method which throws exception")
     @Test
     public void givenOrderDetails_whenUpdateOrderStatusToConfirmed_thenThrowsException(){
         // given - precondition or setup
-        given(orderRepository.findById(order.getUserId())).willReturn(Optional.ofNullable(order));
         given(orderRepository.existsById(order.getUserId())).willReturn(false);
         // when -  action or the behaviour that we are going test
 
         org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class, () ->
                 orderService.updateOrderStatusToConfirmed(order.getUserId()));
 
-        // then
-        verify(orderRepository, never()).save(any(POSOrder.class));
-        verify(orderRepository, never()).deleteById(any(Long.class));
+        verify(orderRepository, never()).findById(order.getUserId());
+        verify(orderRepository, never()).save(order);
     }
 
     @DisplayName("JUnit test for getOrderStatus method which throws exception")
