@@ -32,31 +32,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(Long userId, Timestamp startDate, Timestamp estimatedEndDate, Timestamp endDate, String moreInfo, OrderStatus orderStatus, String storeUserId) {
         if(orderRepository.existsById(userId)){
-            orderRepository.deleteById(userId);
+            POSOrder newOrder = orderRepository.findById(userId).orElseThrow();
+            newOrder.setStartDate(startDate);
+            newOrder.setEstimatedEndDate(estimatedEndDate);
+            newOrder.setEndDate(endDate);
+            newOrder.setMoreInfo(moreInfo);
+            newOrder.setOrderStatus(orderStatus);
+            newOrder.setStoreUserId(storeUserId);
+            orderRepository.save(newOrder);
         }
         else {
             throw new NoSuchElementException("Order with this id does not exist");
         }
-
-        POSOrder newOrder = new POSOrder(userId, startDate, estimatedEndDate, endDate, moreInfo, orderStatus, storeUserId);
-        newOrder.setUserId(userId);
-
-        orderRepository.save(newOrder);
     }
 
     @Override
     public void updateOrderStatusToConfirmed(Long orderId) {
-        POSOrder oldOrder = orderRepository.findById(orderId).orElseThrow();
 
         if(orderRepository.existsById(orderId)){
-            orderRepository.deleteById(orderId);
+            POSOrder newOrder = orderRepository.findById(orderId).orElseThrow();
+            newOrder.setOrderStatus(OrderStatus.PLACED);
+            orderRepository.save(newOrder);
         }
         else {
             throw new NoSuchElementException("Order with this id does not exist");
         }
-
-        oldOrder.setOrderStatus(OrderStatus.PLACED);
-        orderRepository.save(oldOrder);
     }
 
     @Override
