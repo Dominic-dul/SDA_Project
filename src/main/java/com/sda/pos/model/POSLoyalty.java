@@ -1,39 +1,43 @@
 package com.sda.pos.model;
 
-import com.sda.pos.enums.OrderStatus;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class POSLoyalty {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long loyaltyId;
+    private Long loyaltyInformationId;
     private Long userId;
-    private String number;
     private Timestamp startDate;
     private Timestamp expirationDate;
 
     public POSLoyalty() {
     }
 
-    public POSLoyalty(Long userId, String number, Timestamp startDate, Timestamp expirationDate){
+    public POSLoyalty(Long loyaltyId, Long loyaltyInformationId, Long userId, Timestamp startDate, Timestamp expirationDate){
+        this.loyaltyId = loyaltyId;
+        this.loyaltyInformationId = loyaltyInformationId;
         this.userId = userId;
-        this.number = number;
         this.startDate = startDate;
         this.expirationDate = expirationDate;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getLoyaltyId() {
+        return loyaltyId;
     }
 
-    public String getNumber() {
-        return number;
+    public Long getLoyaltyInformationId() {
+        return loyaltyInformationId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public Timestamp getStartDate() {
@@ -44,8 +48,12 @@ public class POSLoyalty {
         return expirationDate;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setLoyaltyId(Long loyaltyId) {
+        this.loyaltyId = loyaltyId;
+    }
+
+    public void setLoyaltyInformationId(Long loyaltyInformationId) {
+        this.loyaltyInformationId = loyaltyInformationId;
     }
 
     public void setUserId(Long userId) {
@@ -65,11 +73,11 @@ public class POSLoyalty {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         POSLoyalty that = (POSLoyalty) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(number, that.number) && Objects.equals(startDate, that.startDate) && Objects.equals(expirationDate, that.expirationDate);
+        return Objects.equals(loyaltyId, that.loyaltyId) && Objects.equals(loyaltyInformationId, that.loyaltyInformationId) && Objects.equals(userId, that.userId) && Objects.equals(startDate, that.startDate) && Objects.equals(expirationDate, that.expirationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, number, startDate, expirationDate);
+        return Objects.hash(loyaltyId, loyaltyInformationId, userId, startDate, expirationDate);
     }
 }
