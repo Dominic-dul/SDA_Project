@@ -20,8 +20,7 @@ public class POSLoyalty {
     public POSLoyalty() {
     }
 
-    public POSLoyalty(Long loyaltyId, Long loyaltyInformationId, Long userId, Timestamp startDate, Timestamp expirationDate){
-        this.loyaltyId = loyaltyId;
+    public POSLoyalty(Long loyaltyInformationId, Long userId, Timestamp startDate, Timestamp expirationDate){
         this.loyaltyInformationId = loyaltyInformationId;
         this.userId = userId;
         this.startDate = startDate;

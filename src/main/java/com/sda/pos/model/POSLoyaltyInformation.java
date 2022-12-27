@@ -15,6 +15,14 @@ public class POSLoyaltyInformation {
     private String information;
     private String requirements;
 
+    public POSLoyaltyInformation() {
+    }
+
+    public POSLoyaltyInformation(String information, String requirements){
+        this.information = information;
+        this.requirements = requirements;
+    }
+
     public Long getLoyaltyInformationId() {
         return loyaltyInformationId;
     }
