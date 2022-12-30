@@ -4,6 +4,6 @@ import com.sda.pos.model.POSLoyaltyInformation;
 import java.util.List;
 
 public interface LoyaltyInformationService {
-    public List<POSLoyaltyInformation> getLoyaltyInformation();
+    public List<POSLoyaltyInformation> getLoyaltiesInformation();
     public void saveLoyaltyInformation(String information, String requirements);
 }

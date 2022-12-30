@@ -2,9 +2,10 @@ package com.sda.pos.service;
 
 import com.sda.pos.model.POSLoyaltyInformation;
 import com.sda.pos.repository.LoyaltyInformationRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class LoyaltyInformationServiceImpl implements LoyaltyInformationService{
     private final LoyaltyInformationRepository loyaltyInformationRepository;
 
@@ -13,7 +14,7 @@ public class LoyaltyInformationServiceImpl implements LoyaltyInformationService{
     }
 
     @Override
-    public List<POSLoyaltyInformation> getLoyaltyInformation() {
+    public List<POSLoyaltyInformation> getLoyaltiesInformation() {
         return loyaltyInformationRepository.findAll();
     }
 
