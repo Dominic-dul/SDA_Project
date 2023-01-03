@@ -1,7 +1,9 @@
 package com.sda.pos.service;
 
 import com.sda.pos.enums.OrderStatus;
+import com.sda.pos.model.POSEmployeeOrder;
 import com.sda.pos.model.POSOrder;
+import com.sda.pos.repository.EmployeeOrderRepository;
 import com.sda.pos.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import java.util.NoSuchElementException;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final EmployeeOrderRepository employeeOrderRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, EmployeeOrderRepository employeeOrderRepository) {
         this.orderRepository = orderRepository;
+        this.employeeOrderRepository = employeeOrderRepository;
     }
 
     @Override
@@ -27,6 +31,8 @@ public class OrderServiceImpl implements OrderService {
     public void saveOrder(Long userId, Timestamp startDate, Timestamp estimatedEndDate, Timestamp endDate, String moreInfo, OrderStatus orderStatus, String storeUserId) {
         POSOrder newOrder = new POSOrder(userId, startDate, estimatedEndDate, endDate, moreInfo, orderStatus, storeUserId);
         orderRepository.save(newOrder);
+        POSEmployeeOrder employeeOrder = new POSEmployeeOrder(Long.parseLong(storeUserId), userId);
+        employeeOrderRepository.save(employeeOrder);
     }
 
     @Override
